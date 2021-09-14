@@ -1,0 +1,33 @@
+.typingarea-home {
+  border-radius: 25px;
+  border: 2px solid slategray;
+  padding: 20px;
+  margin-top: 30px;
+  width: auto;
+  max-height: 100%;
+  color: white;
+  display: flex;
+}
+
+.words-div {
+  width: auto;
+  max-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: transparent;
+  border-style: none;
+  resize: none;
+  align-content: flex-start;
+  overflow: hidden;
+  cursor: default;
+}
+
+#restart-test {
+  background: none;
+  border: 0;
+  color: slategray;
+  margin: auto !important;
+  margin-top: 40px !important;
+  text-align: center;
+  display: flex;
+}

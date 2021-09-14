@@ -1,0 +1,10 @@
+$sidebar-bg-color: transparent !default;
+
+.pro-sidebar {
+  margin-top: 20px !important;
+  width: auto !important;
+  display: flex !important;
+  min-width: auto !important;
+}
+
+@import "~react-pro-sidebar/dist/scss/styles.scss";
