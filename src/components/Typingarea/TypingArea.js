@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useRef } from 'react'
+import { React, useEffect, useState, useRef, createRef } from 'react'
 import Col from 'react-bootstrap/Col'
 import './TypingArea.css';
 
@@ -6,26 +6,36 @@ export default function TypingArea() {
     // const [randomWords, setRandomWords] = React.useState("");
     // const [keyPressed, setKeyPressed] = React.useState('');
     const [intervalTime, setIntervalTime] = useState()
-    const [isKeyPressed, setKeyPressed] = useState(false)
-    const [wordsLoaded, setWordsLoaded] = useState(null);
+    const [keyPressed, setKeyPressed] = useState('')
+    const [placeHolder, setPlaceHolder] = useState("")
+    const [wordsLoaded, setWordsLoaded] = useState(false);
     const [generatedWordElements, setGeneratedWordElements] = useState([]);
-    const currentLetter = useRef(null)
+    let test = createRef();
+    let i = 0;
+    let j = 0;
+    let counter = 0;
 
     var generateRandomWords = require('random-words');
     let finalWords = [];
 
 
-
     useEffect(() => {
         generate();
+        window.addEventListener('keydown', checkKeyPress)
+
+
+        return () => {
+            window.removeEventListener('keydown', checkKeyPress)
+        }
     }, [])
 
     useEffect(() => {
         if (document.getElementById("letter")) {
-            console.log(document.getElementById("letter").insertAdjacentHTML("afterbegin", '|'));
+            document.getElementById("words-box").querySelectorAll('div#letter')[0].insertAdjacentHTML("afterbegin", '|');
         }
 
-    })
+    }, [])
+
 
     function clearPrevious() {
         setGeneratedWordElements([]);
@@ -40,7 +50,9 @@ export default function TypingArea() {
             return document.getElementById("words-box").appendChild(item)
         });
 
+
     }
+
 
     function getFirstLetter() {
 
@@ -59,6 +71,7 @@ export default function TypingArea() {
             //Create a div element with class "word"
             let wordElement = document.createElement("div");
             wordElement.setAttribute("className", "word");
+            wordElement.setAttribute("id", "word");
             wordElement.setAttribute("style", "margin: .35rem;");
 
             for (let i = 0; i < word.length; i++) {
@@ -81,15 +94,77 @@ export default function TypingArea() {
 
 
 
-    // function checkKeyPress() {
-    //     setKeyPressed(this.keyPressed.bind(this));
+    function checkKeyPress(event) {
+        var targetKey = document.getElementById("words-box").querySelectorAll('div#letter')[i].innerHTML;
+        var currentLetterNode = document.getElementById("words-box").querySelectorAll('div#letter')[i];
+        var previousLetterNode = document.getElementById("words-box").querySelectorAll('div#letter')[i - 1];
+        var currentWordNode = document.getElementById("words-box").querySelectorAll('div#word')[j];
+        var previousWordNode = document.getElementById("words-box").querySelectorAll('div#word')[j - 1];
 
-    // }
 
-    function handleChange() {
+
+        if (counter < currentWordNode.children.length && event.key !== "Backspace") {
+            if (event.key === targetKey) {
+                currentLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: green;");
+                i++;
+                counter++;
+            } else {
+                currentLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: red;");
+                i++;
+                counter++;
+            }
+        }
+
+        if (!counter < currentWordNode.children.length && event.keyCode === 32) {
+            counter = 0;
+            j++;
+            console.log("hit space");
+
+        }
+
+
+        if (counter !== 0 && event.key === "Backspace" && j !== 0) {
+            if (i !== 0 && targetKey !== currentWordNode.children.item(0).innerHTML) {
+                console.log("Moving backwards");
+                previousLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+                i--;
+                counter--;
+            } else {
+                j--;
+                counter = previousWordNode.children.length - 1;
+            }
+        }
+
+        if (i !== 0 && counter === 0 && event.key === "Backspace" && targetKey) {
+            j--;
+            counter = previousWordNode.children.length - 1;
+        }
+
+        if (j === 0 && event.key === "Backspace" && i <= currentWordNode.children.length && i !== 0) {
+            console.log("moving backwards");
+            previousLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+            i--;
+            counter--;
+        }
+
+        if (j === 0 && event.key === "Backspace" && i === 0) {
+            return;
+        }
+
+        console.log(currentWordNode.children.length + " Current word length");
+        console.log(counter + " Current counter");
+        console.log(j + " Current word")
+        console.log(i + " i variable")
 
     }
 
+
+
+
+    function handleChange(event) {
+        console.log(event)
+
+    }
 
     function loadCursorBlink() {
         // const nextTimeOut = setTimeout(() => {
@@ -103,10 +178,7 @@ export default function TypingArea() {
         // }
         // let reference = document.getElementById(currentLetter.current)
 
-        console.log(currentLetter.current);
     }
-
-
 
 
     return (
@@ -124,7 +196,8 @@ export default function TypingArea() {
             <button id="restart-test" onClick={generate}>
                 <i className="fas fa-redo fa-lg"></i>
             </button>
-        </Col>
+
+        </Col >
     )
 }
 
