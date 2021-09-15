@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "babel-eslint": "^10.1.0",
     "material-components-web": "^12.0.0",
+    "random-words": "^1.1.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.3",
     "react-dom": "^17.0.2",

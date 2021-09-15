@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import SideBar from './components/Sidebar/SideBar';
 import TypingArea from './components/Typingarea/TypingArea';
 import NavBar from './components/Navbar/NavBar';
@@ -6,7 +7,6 @@ import StatsBar from './components/Statsbar/StatsBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 
 function App() {
   return (

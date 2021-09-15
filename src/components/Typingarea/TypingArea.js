@@ -1,19 +1,31 @@
-import React from 'react'
+import { React, useEffect, useState, useRef } from 'react'
 import Col from 'react-bootstrap/Col'
 import './TypingArea.css';
 
 export default function TypingArea() {
-    const [randomWords, setRandomWords] = React.useState("");
-    const [keyPressed, setKeyPressed] = React.useState('');
-    const [textAreaDisabled, setTextAreaDisabled] = React.useState(true);
-    const [generatedWordElements, setGeneratedWordElements] = React.useState([]);
+    // const [randomWords, setRandomWords] = React.useState("");
+    // const [keyPressed, setKeyPressed] = React.useState('');
+    const [intervalTime, setIntervalTime] = useState()
+    const [isKeyPressed, setKeyPressed] = useState(false)
+    const [wordsLoaded, setWordsLoaded] = useState(null);
+    const [generatedWordElements, setGeneratedWordElements] = useState([]);
+    const currentLetter = useRef(null)
 
-    const strings = ["test", "wow", "help", "omg", "what", "then", "them", "if", "pizza", "store", "math", "science", "history", "gaming"];
-    let generatedWords = [];
+    var generateRandomWords = require('random-words');
     let finalWords = [];
 
 
-    React.useEffect(() => generateRandomWord(), []);
+
+    useEffect(() => {
+        generate();
+    }, [])
+
+    useEffect(() => {
+        if (document.getElementById("letter")) {
+            console.log(document.getElementById("letter").insertAdjacentHTML("afterbegin", '|'));
+        }
+
+    })
 
     function clearPrevious() {
         setGeneratedWordElements([]);
@@ -22,30 +34,28 @@ export default function TypingArea() {
 
     }
 
-
-    function generateRandomWord() {
-        clearPrevious();
-        for (let i = 0; i < strings.length; i++) {
-            generatedWords.push(strings[Math.floor(Math.random() * (strings.length))])
-        }
-        //Generated the random words into generatedWords array
-        //Take each word, create div for each letter
-        generateLetterDivs();
-
-    }
-
-
     function returnNewDivs() {
-        generatedWordElements.map((item) => (
-            document.getElementById("words-box").appendChild(item)
-        ))
+
+        generatedWordElements.map((item) => {
+            return document.getElementById("words-box").appendChild(item)
+        });
 
     }
 
+    function getFirstLetter() {
+
+        if (wordsLoaded) {
+            var node2 = document.getElementById("words-box");
+            node2.querySelectorAll('*').forEach(n => console.log(n))
+        }
+        console.log("Not loaded");
+        // loadCursorBlink();
+    }
 
 
-    function generateLetterDivs() {
-        generatedWords.forEach(word => {
+    function generate() {
+        clearPrevious();
+        generateRandomWords(30).forEach(word => {
             //Create a div element with class "word"
             let wordElement = document.createElement("div");
             wordElement.setAttribute("className", "word");
@@ -54,25 +64,49 @@ export default function TypingArea() {
             for (let i = 0; i < word.length; i++) {
                 let elementToAdd = document.createElement("div");
                 elementToAdd.setAttribute("className", "letter");
+                elementToAdd.setAttribute("id", "letter");
                 elementToAdd.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
                 elementToAdd.innerHTML = word[i];
                 wordElement.appendChild(elementToAdd);
             }
             finalWords.push(wordElement);
         });
+
         setGeneratedWordElements([...finalWords]);
+
+
+
     }
 
 
 
-    function checkKeyPress() {
-        setKeyPressed(this.keyPressed.bind(this));
 
-    }
+    // function checkKeyPress() {
+    //     setKeyPressed(this.keyPressed.bind(this));
+
+    // }
 
     function handleChange() {
 
     }
+
+
+    function loadCursorBlink() {
+        // const nextTimeOut = setTimeout(() => {
+        // let reference = document.getElementById("letter").innerText;
+        // reference.innerText += '|';
+        // })
+        // let reference = document.getElementById("letter");
+        // console.log(reference);
+        // while (isKeyPressed) {
+
+        // }
+        // let reference = document.getElementById(currentLetter.current)
+
+        console.log(currentLetter.current);
+    }
+
+
 
 
     return (
@@ -87,8 +121,8 @@ export default function TypingArea() {
                     {returnNewDivs()}
                 </div>
             </div>
-            <button id="restart-test" onClick={generateRandomWord}>
-                <i class="fas fa-redo fa-lg"></i>
+            <button id="restart-test" onClick={generate}>
+                <i className="fas fa-redo fa-lg"></i>
             </button>
         </Col>
     )
