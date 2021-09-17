@@ -75,12 +75,28 @@ export default function TypingArea() {
             wordElement.setAttribute("style", "margin: .35rem;");
 
             for (let i = 0; i < word.length; i++) {
+
                 let elementToAdd = document.createElement("div");
-                elementToAdd.setAttribute("className", "letter");
-                elementToAdd.setAttribute("id", "letter");
-                elementToAdd.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
-                elementToAdd.innerHTML = word[i];
-                wordElement.appendChild(elementToAdd);
+                let spacer = document.createElement("div");
+                if (i === word.length - 1) {
+                    elementToAdd.setAttribute("className", "letter");
+                    elementToAdd.setAttribute("id", "letter");
+                    elementToAdd.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+                    elementToAdd.innerHTML = word[i];
+                    wordElement.appendChild(elementToAdd);
+
+                    spacer.setAttribute("className", "letter");
+                    spacer.setAttribute("id", "letter");
+                    spacer.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+                    spacer.innerHTML = " ";
+                    wordElement.appendChild(spacer);
+                } else {
+                    elementToAdd.setAttribute("className", "letter");
+                    elementToAdd.setAttribute("id", "letter");
+                    elementToAdd.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+                    elementToAdd.innerHTML = word[i];
+                    wordElement.appendChild(elementToAdd);
+                }
             }
             finalWords.push(wordElement);
         });
@@ -103,60 +119,62 @@ export default function TypingArea() {
 
 
 
-        if (counter < currentWordNode.children.length && event.key !== "Backspace") {
-            if (event.key === targetKey) {
-                currentLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: green;");
-                i++;
-                counter++;
-            } else {
-                currentLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: red;");
-                i++;
-                counter++;
-            }
-        }
-
-        if (!counter < currentWordNode.children.length && event.keyCode === 32) {
-            counter = 0;
-            j++;
-            console.log("hit space");
-
-        }
-
-
-        if (counter !== 0 && event.key === "Backspace" && j !== 0) {
-            if (i !== 0 && targetKey !== currentWordNode.children.item(0).innerHTML) {
-                console.log("Moving backwards");
-                previousLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
-                i--;
-                counter--;
-            } else {
-                j--;
-                counter = previousWordNode.children.length - 1;
-            }
-        }
-
-        if (i !== 0 && counter === 0 && event.key === "Backspace" && targetKey) {
-            j--;
-            counter = previousWordNode.children.length - 1;
-        }
-
-        if (j === 0 && event.key === "Backspace" && i <= currentWordNode.children.length && i !== 0) {
-            console.log("moving backwards");
-            previousLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
-            i--;
-            counter--;
-        }
-
-        if (j === 0 && event.key === "Backspace" && i === 0) {
-            return;
-        }
-
-        console.log(currentWordNode.children.length + " Current word length");
-        console.log(counter + " Current counter");
-        console.log(j + " Current word")
-        console.log(i + " i variable")
-
     }
+
+    //     if (counter < currentWordNode.children.length && event.key !== "Backspace") {
+    //         if (event.key === targetKey) {
+    //             currentLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: green;");
+    //             i++;
+    //             counter++;
+    //         } else {
+    //             currentLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: red;");
+    //             i++;
+    //             counter++;
+    //         }
+    //     }
+
+    //     if (!counter < currentWordNode.children.length && event.keyCode === 32) {
+    //         counter = 0;
+    //         j++;
+    //         console.log("hit space");
+
+    //     }
+
+
+    //     if (counter !== 0 && event.key === "Backspace" && j !== 0) {
+    //         if (i !== 0 && targetKey !== currentWordNode.children.item(0).innerHTML) {
+    //             console.log("Moving backwards");
+    //             previousLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+    //             i--;
+    //             counter--;
+    //         } else {
+    //             j--;
+    //             counter = previousWordNode.children.length - 1;
+    //         }
+    //     }
+
+    //     if (i !== 0 && counter === 0 && event.key === "Backspace" && previousWordNode) {
+    //         j--;
+    //         counter = previousWordNode.children.length - 1;
+    //     }
+
+    //     if (j === 0 && event.key === "Backspace" && i <= currentWordNode.children.length && i !== 0) {
+    //         console.log("moving backwards");
+    //         previousLetterNode.setAttribute("style", "display: inline-block; line-height: 1.5rem; font-size: 1.5rem; color: slategray;");
+    //         i--;
+    //         counter--;
+    //     }
+
+    //     if (j === 0 && event.key === "Backspace" && i === 0) {
+    //         return;
+    //     }
+
+    //     console.log(currentWordNode.children.length + " Current word length");
+    //     console.log(counter + " Current counter");
+    //     console.log(j + " Current word")
+    //     console.log(i + " i variable")
+
+    // }
 
 
 
