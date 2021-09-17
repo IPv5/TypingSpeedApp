@@ -7,13 +7,13 @@ import './StatsBar.scss';
 
 
 
-function StatsBar() {
+function StatsBar({ updateTimeLeft, updateWPM }) {
     return (
         <Col lg={true}>
             <ProSidebar rtl={true}>
                 <Menu iconShape="circle">
-                    <MenuItem icon={<FaGem />}>LIVE WPM</MenuItem>
-                    <MenuItem icon={<FaHeart />}>LIVE TIME/WORDS LEFT</MenuItem>
+                    <MenuItem icon={<FaGem />}>TIME LEFT: {updateTimeLeft}</MenuItem>
+                    <MenuItem icon={<FaHeart />}>WPM: {updateWPM} </MenuItem>
                     <MenuItem icon={<FaHeart />}>CURRENT ACCURACY</MenuItem>
                     <MenuItem icon={<FaHeart />}></MenuItem>
                     <MenuItem icon={<FaHeart />}></MenuItem>
