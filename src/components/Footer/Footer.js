@@ -8,16 +8,21 @@ function Footer() {
 
 
 
-
     return (
         <div className='footer-home'>
             <div className='footer-buttons-container'>
-                <Button className='footer-button' variant="secondary" size="lg">
-                    This is a very very very big button
-                </Button>
-                <Button className='footer-button' variant="secondary" size="lg">
-                    This is a very very very big button
-                </Button>
+                <button className="footer-button">
+                    <i class="fab fa-github fa-sm"> GitHub</i>
+                </button>
+                <button className="footer-button">
+                    <i class="fas fa-file-contract fa-sm"> Terms</i>
+                </button>
+                <button className="footer-button">
+                    <i class="fas fa-lock fa-sm"> Privacy</i>
+                </button>
+                <button className="footer-button">
+                    <i class="fas fa-coffee fa-sm"> Coffee</i>
+                </button>
             </div>
         </div>
     )
